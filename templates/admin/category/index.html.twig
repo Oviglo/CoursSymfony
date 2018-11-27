@@ -1,0 +1,53 @@
+{% extends 'admin/admin_layout.html.twig' %}
+
+{% block title %}{{ 'category.index.title'|trans }} - {{ parent() }}{% endblock %}
+
+{% block page_content %}
+
+{% embed 'decorator/_card.html.twig' with {'header_class' : 'bg-primary'} %}
+{% block header %}
+    {{ 'category.index.title'|trans }}
+{% endblock %}
+
+{% block body %}
+<a class="float-right btn btn-success" href="{{ path('admin_category_new') }}"><i class="fa fa-plus"></i> {{ 'category.new.title'|trans }}</a>
+{% endblock %}
+
+{% block table %}
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>{{ 'category.article_count'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.articles|length }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-secondary" href="{{ path('admin_category_edit', {'id': entity.id }) }}"><i class="fa fa-pencil-alt"></i></a>
+                        <a class="btn btn-danger" href="{{ path('admin_category_delete', {'id': entity.id }) }}"><i class="fa fa-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{# Footer #}
+{% block footer %}
+<div class="float-left">
+    {{ 'category.index.count'|transchoice(entities|length, {'%count%': entities|length}) }}
+</div>
+{% endblock %}
+
+{% endembed %}
+
+{% endblock %}

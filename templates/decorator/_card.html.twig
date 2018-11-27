@@ -1,0 +1,18 @@
+<div class="card {% if class is defined %}{{ class }}{% endif %}">
+    {% if block('header') is defined %}
+    <div class="card-header clearfix {% if header_class is defined %}{{ header_class }}{% endif %}">
+        {{ block('header') }}
+    </div>
+    {% endif %}
+    <div class="card-body">
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% block table %}
+    {% endblock %}
+    {% if block('footer') is defined %}
+    <div class="card-footer clearfix {% if footer_class is defined %}{{ footer_class }}{% endif %}">
+        {{ block('footer') }}
+    </div>
+    {% endif %}
+</div>

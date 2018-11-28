@@ -23,6 +23,7 @@ npm run dev
 ```
 
 ## Dossiers
+
 **assets:** Fichier js/scss
 **bin:** Fichiers binaires tel que la console
 **config:** Fichiers de configuration des modules (Sf < 4: un seul fichier config.yml)
@@ -45,7 +46,7 @@ npm install --save-dev
 
 ## Route
 Afficher les routes
-```php
+```
 php bin/console debug:router
 ```
 
@@ -79,4 +80,45 @@ Définir une colonne
 /**
  * @ORM\Column(name="nom_du_champ", type="string|text|integer|float|datetime|json_array", nullable=true, length=255)
  */
+```
+
+### Relations
+
+Des annotations permettent de définir des relations entres objets
+
+## Formulaire
+Pour afficher un formulaire on utilise une classe "FormType" 
+
+### Query builder
+Lorsqu'un champ affiche une liste d'entités (par exemple la liste des catégories), il est possible de modifier la requête faite par Sf
+
+```php
+->add('categories', null, array(
+    'label' => 'article.categories',
+    'expanded' => true,
+    'query_builder' => function(EntityRepository $er) {
+        return $er->createQueryBuilder('c')
+            ->orderBy('c.name', 'ASC');
+    } 
+))
+```
+
+### Evénements
+
+Il est possible de modifier le formulaire en fonction de l'entité (par exemple si l'article contient une image, afficher le champ pour la supprimer), on utilise dans ce cas les événements de formulaire dans la méthode BuildForm
+
+```php
+// Evénement pour ajouter ou non le champ "deleteImage" 
+$builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+    $entity = $event->getData(); // Entité envoyée au formulaire 
+    $form = $event->getForm(); // Récupére le formulaire
+
+    if (!is_null($entity->getImage())) { // S'il y a une image dans mon article
+        // Ajout du champ "deleteImage" seulement s'il y a une image
+        $form->add('deleteImage', Type\CheckboxType::class, array(
+            'label' => 'image.delete',
+            'required' => false, // Désactive le required
+        ));
+    }
+});
 ```

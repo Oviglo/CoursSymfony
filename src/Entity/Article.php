@@ -36,10 +36,20 @@ class Article
     private $categories;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image")
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"all"}, orphanRemoval=true)
      * @var ?\App\Entity\Image
      */
     private $image;
+
+    /**
+     * @var bool
+     */
+    private $deleteImage;
+
+    public function __construct()
+    {
+        $this->deleteImage = false;
+    }
 
     /**
      * Get the value of id
@@ -138,7 +148,36 @@ class Article
      */ 
     public function setImage(?\App\Entity\Image $image)
     {
-        $this->image = $image;
+        if ($image instanceof \App\Entity\Image && !is_null($image->getFile())) { // Test s'il une image est envoyée
+            $this->image = $image;
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Get the value of deleteImage
+     *
+     * @return  bool
+     */ 
+    public function getDeleteImage()
+    {
+        return $this->deleteImage;
+    }
+
+    /**
+     * Set the value of deleteImage
+     *
+     * @param  bool  $deleteImage
+     *
+     * @return  self
+     */ 
+    public function setDeleteImage(bool $deleteImage)
+    {
+        $this->deleteImage = $deleteImage;
+        if ($deleteImage) {
+            $this->image = null;
+        }
 
         return $this;
     }

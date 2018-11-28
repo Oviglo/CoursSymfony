@@ -14,6 +14,8 @@ article:
   index:
     title: Liste des articles
     count: "{0} Aucun article|{1} 1 article au total|]1,Inf[ %count% articles au total"
+  categories: Catégories
+  image: Image
 
 category:
   name: Nom de la catégorie

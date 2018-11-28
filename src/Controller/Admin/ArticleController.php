@@ -85,6 +85,7 @@ class ArticleController extends Controller
 
         return $this->render('admin/article/edit.html.twig', array(
             'form' => $form->createView(), // Envoi le formulaire à la vue
+            'entity' => $entity,
         ));
     }
 

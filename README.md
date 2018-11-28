@@ -6,15 +6,19 @@ Pour installer les bibliothèques PHP externes entrez cette commande
 composer install
 ```
 
-Pour installer les bibliothèques JS et CSS entrez cette commande
-```
-nom install
-```
-
 Configurez l'accés à la base de données dans le fichier .env
 Ensuite mettre à jour la base de donnée avec la commande
 ```
 php bin/console doctrine:schema:update --force
+```
+
+### Webpack
+Webpack permet de condenser tous les fichiers assets dans un seul
+Ex tous les fichier js sont minifiés et placés dans un seul fichier
+
+Pour installer les modules 
+```
+npm install --save-dev
 ```
 
 Pour générer les fichier CSS et JS entrez la commande
@@ -25,24 +29,24 @@ npm run dev
 ## Dossiers
 
 **assets:** Fichier js/scss
+
 **bin:** Fichiers binaires tel que la console
+
 **config:** Fichiers de configuration des modules (Sf < 4: un seul fichier config.yml)
+
 **public:** Contient l'index.php et les fichiers statiques créés par WebPack
+
 **src:** Tout le code source de l'application
+
 **templates:** Contient toutes les vues (fichiers Twig)
+
 **tests:** Fichiers pour les tests unitaires
+
 **translations:** Fichiers de traduction (Sf < 4: les vues sont dans le dossier Resource/Views des Bundle)
+
 **var:** Contient le cache et les fichiers log
+
 **vendor:** Bibliothèques externes
-
-## Webpack
-Webpack permet de condenser tous les fichiers assets dans un seul
-Ex tous les fichier js sont minifiés et placés dans un seul fichier
-
-Pour installer les modules 
-```
-npm install --save-dev
-```
 
 ## Route
 Afficher les routes
@@ -61,7 +65,7 @@ Par exemple pour définir les routes dans un controller
 Avec paramètres
 ```php
 /**
- * @Route("/edit/{id}", requirements={"id":"\d+"})
+ * @Route("/edit/{id}", name="edit", requirements={"id":"\d+"})
  */
 ```
 ## Entity
@@ -82,9 +86,60 @@ Définir une colonne
  */
 ```
 
+### Cycle de vie
+Il est possible d'indiquer à Doctrine d'appeler des méthodes en fonction de ce qui est fait de l'entité
+Par exemple appeler une méthode avant le persist
+Il faut ajouter l'annotation ```@ORM\HasLifecycleCallbacks``` suivant en dessous de ```@ORM\entity```
+```php
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
+ */
+```
+
+Ainsi la méthode suivante est appeler avant un persist
+```php
+/**
+ * @ORM\PrePersist()
+ */
+public function prePersist()
+{
+}
+```
+
+Il y a d'autres événement tel que ```preRemove``` ou ```preUpdate```
+
 ### Relations
 
 Des annotations permettent de définir des relations entres objets
+
+#### Relation OneToOne
+Exemple: Une seule Image pour un seul Article
+```php
+/**
+ * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"all"}, orphanRemoval=true)
+ * @var ?\App\Entity\Image
+ */
+private $image;
+```
+*L'attribut "cascade" parmet d'enregistrer l'image en même temps que l'article (ainsi que la suppression)
+*L'attribut "orphanRemoval" indique que si l'attribut est null, Doctrine doit supprimer l'image associée s'il y en a une
+
+#### Relation ManyToOne
+
+#### Relation ManyToMany
+Exemple: plusieurs articles dans plusieurs catégories
+Ainsi Doctrine va créer une table intermediaire qui sera complétement transparente dans notre appli
+
+```php
+/**
+ * @ORM\ManyToMany(targetEntity="App\Entity\Category")
+ * @var ?\Doctrine\Common\Collections\ArrayCollection
+ */
+private $categories;
+```
+
+### Relation ManyToMany avec paramètres
 
 ## Formulaire
 Pour afficher un formulaire on utilise une classe "FormType" 
@@ -122,3 +177,6 @@ $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) 
     }
 });
 ```
+
+## FOSUserBundle
+Pour la gestion d'utilisateur, nous utilisont un bundle qui va nous proposer des formulaires de connexion, enregistrement par défaut

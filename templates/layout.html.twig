@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('build/css/front.css') }}">
+{% endblock %}
+
 {% block body %}
 <div class="container">
     {% block page_content %}

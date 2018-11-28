@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('build/css/admin.css') }}">
+{% endblock %}
+
 {% block body %}
 <div class="container-fluid">
     {# Affichage des messages flash #}

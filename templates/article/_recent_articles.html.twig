@@ -1,0 +1,16 @@
+<div class="article-list">
+    <ul class="list-unstyled">
+    {% for entity in entities %}
+        <li class="media">
+            {% if entity.image is not empty %}
+                <img style="max-width: 100px" class="mr-3 w-100" src="{{ asset('/uploads/' ~ entity.image.path ) }}" alt="{{ entity.title }}">
+            {% endif %}
+            <div class="media-body">
+            <h5 class="mt-0 mb-1">{{ entity.title }}</h5>
+            {% if entity.dateCreate.timestamp > 0 %}<small>{{ entity.dateCreate|date('d/m/Y H:i') }}</small><br/>{% endif %}
+            {{ entity.content|striptags|slice(0, 50) }}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

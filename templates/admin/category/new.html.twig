@@ -3,7 +3,7 @@
 {% block page_content %}
 
 {{ form_start(form, {'attr' : {'novalidate':'novalidate'} }) }}
-{% embed 'decorator/_card.html.twig' with {'header_class' : 'bg-primary'} %}
+{% embed 'decorator/_card.html.twig' with {'header_class' : 'bg-primary text-light'} %}
 {% block header %}
     {{ 'category.new.title'|trans }}
 {% endblock %}

@@ -35,7 +35,11 @@ class ArticleType extends AbstractType
 
             ->add('content', null, array(
                 'label' => 'article.content',
-            ))  
+            ))
+            
+            ->add('publish', null, array(
+                'label' => 'article.publish'
+            ))
         ;
 
         // Evénement pour ajouter ou non le champ "deleteImage" 

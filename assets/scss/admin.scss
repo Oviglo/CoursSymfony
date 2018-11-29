@@ -1,5 +1,81 @@
-@import "~bootswatch/dist/Darkly/_variables";
+$primary: #28829b;
+$light: #aaa;
+@import "~bootswatch/dist/Pulse/_variables";
 @import "~bootstrap/scss/bootstrap";
 
 body {
+    padding-top: $nav-link-height + ($navbar-padding-y * 2);
+}
+
+.main-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: $nav-link-height + ($navbar-padding-y * 2);
+    min-height: 100vh;
+    width: 230px;
+    background-color: $dark;
+    z-index: 100;
+
+    .nav {
+        > .nav-item {
+
+            .nav-link {
+                border: none;
+                border-radius: 0px;
+                border-left: 3px solid transparent;
+                background-color: lighten($dark, 5%);
+                color: darken($light, 20%);
+                padding-left: 8px;
+
+                &:hover, &:active, &:focus {
+                    background-color: $dark;
+                    color: $light;
+                }
+            }
+
+            &.active {
+                > .nav-link {
+                    border-left-color: $primary;
+                    background-color: $dark;
+                }
+            }
+
+            .sub-nav { 
+                > .nav-item {
+
+                    .nav-link {
+                        background-color: lighten($dark, 10%);
+                        padding-left: 20px;
+                        color: darken($light, 20%);
+
+                        &:hover, &:active, &:focus {
+                            background-color: lighten($dark, 5%)
+                        }
+                    }
+
+                    &.active {
+                        > .nav-link {
+                            color: $light;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+
+    .nav-pills {
+        .nav-link:hover:not(.active) {
+            background: none;
+            border-color: transparent;
+        }
+    }
+}
+
+.content-wrapper {
+    margin-left: 230px;
+    background-color: $gray-200;
+    min-height: 100vh;
+    padding-top: 15px;
 }

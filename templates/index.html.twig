@@ -1,7 +1,8 @@
 {% extends 'layout.html.twig' %}
 
 {% block page_content %}
-<p><i class="fa fa-pencil-alt"></i> Salut <b>{{ name }}</b></p>
+<h2>Derniers articles</h2>
+{{ render(controller('App\\Controller\\ArticleController::recentArticles')) }}
 {% endblock page_content %}
 
 {% block javascripts %}

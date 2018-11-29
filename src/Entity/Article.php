@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Article 
 {
@@ -46,9 +47,36 @@ class Article
      */
     private $deleteImage;
 
+    /**
+     * @var ?\DateTime
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreate;
+
+    /**
+     * @var ?\DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateUpdate;
+
+    /**
+     * @var ?\App\Entity\User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $user;
+
+    /**
+     * @var ?bool
+     * @ORM\Column(type="boolean", nullable=true, options={"default" : true})
+     */
+    private $publish;
+
     public function __construct()
     {
         $this->deleteImage = false;
+        $this->dateCreate =  new \DateTime;
+        $this->dateUpdate = null;
+        $this->publish = true;
     }
 
     /**
@@ -178,6 +206,83 @@ class Article
         if ($deleteImage) {
             $this->image = null;
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of dateCreate
+     *
+     * @return  ?\DateTime
+     */ 
+    public function getDateCreate()
+    {
+        return $this->dateCreate;
+    }
+
+    /**
+     * Get the value of dateUpdate
+     *
+     * @return  ?\DateTime
+     */ 
+    public function getDateUpdate()
+    {
+        return $this->dateUpdate;
+    }
+
+    /**
+     * Methode appelée par Doctrine avant de faire l'update dans la base de données
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate()
+    {
+        $this->dateUpdate = new \DateTime;
+    }
+
+    /**
+     * Get the value of user
+     *
+     * @return  ?\App\Entity\User
+     */ 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param  ?\App\Entity\User  $user
+     *
+     * @return  self
+     */ 
+    public function setUser(?\App\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of publish
+     *
+     * @return  ?bool
+     */ 
+    public function getPublish()
+    {
+        return $this->publish;
+    }
+
+    /**
+     * Set the value of publish
+     *
+     * @param  ?bool  $publish
+     *
+     * @return  self
+     */ 
+    public function setPublish(?bool $publish)
+    {
+        $this->publish = $publish;
 
         return $this;
     }

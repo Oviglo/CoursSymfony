@@ -1,12 +1,12 @@
 {% extends 'admin/admin_layout.html.twig' %}
 
-{% block title %}{{ 'article.index.title'|trans }} - {{ parent() }}{% endblock %}
+{% block title %}{{ 'article.index.title'|trans|parse_icons|striptags }} - {{ parent() }}{% endblock %}
 
 {% block page_content %}
 
-{% embed 'decorator/_card.html.twig' with {'header_class' : 'bg-primary'} %}
+{% embed 'decorator/_card.html.twig' with {'header_class' : 'bg-primary text-light'} %}
 {% block header %}
-    {{ 'article.index.title'|trans }}
+    {{ 'article.index.title'|trans|parse_icons }}
 {% endblock %}
 
 {% block body %}
@@ -18,19 +18,39 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th>Titre</th>
-                <th>{{ 'article.category'|trans }}</th>
-                <th></th>
+                <th>{{ 'article.title'|trans }}</th>
+                <th>{{ 'article.categories'|trans }}</th>
+                <th>{{ 'date.create'|trans }}</th>
+                <th>{{ 'date.update'|trans }}</th>
+                <th>{{ 'article.author'|trans }}</th>
+                <th width="5%"></th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+            <tr {% if not entity.publish %}class="table-danger"{% endif %}>
                 <td>{{ entity.title }}</td>
                 <td>
                     {% for category in entity.categories %}
                     <span class="badge badge-info mr-1">{{ category }}</span>
                     {% endfor %}
+                </td>
+                <td>
+                    {% if entity.dateCreate.timestamp > 0 %}
+                    {{ entity.dateCreate|date('d/m/Y H:i') }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.dateUpdate is not empty and entity.dateUpdate.timestamp > 0 %}
+                    {{ entity.dateUpdate|date('d/m/Y H:i') }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    {{ entity.user }}
                 </td>
                 <td>
                     <div class="btn-group btn-group-sm">

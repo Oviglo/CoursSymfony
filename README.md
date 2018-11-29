@@ -180,3 +180,14 @@ $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) 
 
 ## FOSUserBundle
 Pour la gestion d'utilisateur, nous utilisont un bundle qui va nous proposer des formulaires de connexion, enregistrement par défaut
+
+```
+php bin/console fos:user:create --super-admin
+```
+
+## Twig
+
+### Inclure un controller
+```twig
+{{ render(controller('App\\Controller\\ArticleController::recentArticles', { 'count' : 10 })) }}
+```

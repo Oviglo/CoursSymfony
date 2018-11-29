@@ -41,6 +41,10 @@ class ArticleController extends Controller
     public function new(Request $request)
     {
         $entity = new Article;
+        $user = $this->getUser();
+        // $user = $this->get('security.token_storage')->getToken()->getUser();
+        $entity->setUser($user);
+
         $form = $this->createForm(ArticleType::class, $entity);
         $form->handleRequest($request); // Envoi les données de requêtes (POST) au formulaire
 

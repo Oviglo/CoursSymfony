@@ -1,2 +1,6 @@
 @import "~bootswatch/dist/Minty/_variables";
 @import "~bootstrap/scss/bootstrap";
+
+body {
+    padding-top: $nav-link-height + ($navbar-padding-y * 2);
+}

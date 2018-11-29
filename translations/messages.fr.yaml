@@ -1,6 +1,13 @@
+menu:
+  admin:
+    articles: .icon-newspaper Articles
+    categories: .icon-tags Catégories
+    article_list: Liste des articles
+    article_new: Ajouter une article
 article:
   title: Titre de l'article
   content: Contenu de l'article
+  publish: Publié
   new:
     title: Ajouter un article
     success: L'article a bien été ajouté
@@ -12,13 +19,14 @@ article:
     message: Voulez-vous vraiment supprimer l'article <b>"%title%"</b> ?
     success: L'article a bien été supprimé
   index:
-    title: Liste des articles
+    title: .icon-file Liste des articles
     count: "{0} Aucun article|{1} 1 article au total|]1,Inf[ %count% articles au total"
   categories: Catégories
   image: Image
 
 category:
   name: Nom de la catégorie
+  article_count: Nombre d'articles
   index:
     title: Liste des catégories
     count: "{0} Aucune catégorie|{1} 1 catégorie au total|]1,Inf[ %count% catégories au total"
@@ -31,3 +39,6 @@ category:
   delete:
     title: Supprimer une catégorie
     message: Voulez-vous vraimeent supprimer la catégorie <b>"%name%"</br> ?
+
+date:
+  create: Date d'ajout

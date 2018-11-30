@@ -1,0 +1,19 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_content %}
+<ul class="list-group">
+    <li class="list-group-item">{{ entity.username }}</li>
+    <li class="list-group-item">{{ entity.email }}</li>
+</ul>
+<h3 class="mt-5">{{ 'article.index.title'|trans|parse_icons }}</h3>
+<ul class="list-group">
+    {% for article in entity.articles %}
+    <li class="list-group-item">
+        <a href="{{ path('article_show', {"id" : article.id }) }}">{{ article.title }}</a>
+        {% for category in article.categories %}
+        <span class="badge badge-info mr-1">{{ category.name }}</span>
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

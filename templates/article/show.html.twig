@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_content %}
+<article>
+    <h2><a href="{{ path('article_follow', {'id': entity.id}) }}" class="{% if isFollow %}text-warning{% else %}text-light{% endif %}"><i class="fa fa-star"></i></a> {{ entity.title }}</h2>
+    {% if entity.image is not empty %}
+    <img src="{{ asset('/uploads/' ~ entity.image.path ) }}" alt="{{ entity.title }}" class="img-responsive"/>
+    {% endif %}<br/>
+    <small>{{ entity.dateUpdate|date('d/m/Y H:i') }} 
+    {% if entity.user is not empty %}
+        - <a href="{{ path('user_profile', {'username': entity.user.username }) }}">{{ entity.user }}</a>
+    {% endif %}
+    </small>
+    <div class="article-content">
+        {{ entity.content|raw }}
+    </div>
+</article>
+{% endblock %}

@@ -1,1 +1,26 @@
+{% extends 'layout.html.twig' %}
 
+{% block page_content %}
+<div class="card-group mt-5">
+    {% for entity in entities %}
+    <div class="card {% if not entity.publish %}bg-danger{% endif %}">
+    {% if entity.image is not empty %}
+        <img class="card-img-top" src="{{ asset('/uploads/' ~ entity.image.path) }}" alt="{{ entity.title }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title"><a href="{{ path('article_show', {'id': entity.id }) }}">{{ entity.title }}</a></h5>
+      <p class="card-text">{{ entity.content }}</p>
+      <p class="card-text"><small class="text-muted">{{ entity.dateUpdate|date('d/m/Y H:i') }}</small></p>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+<hr/>
+<nav aria-label="Page">
+    <ul class="pagination">
+        {% for p in 1..nbPages %} {# for(i=1; i<nbPages; i++) #}
+        <li class="page-item {% if p == page %}active{% endif %}"><a class="page-link" href="{{ path('article_index', {'page': p}) }}">{{ p }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endblock %}

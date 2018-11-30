@@ -8,6 +8,7 @@ article:
   title: Titre de l'article
   content: Contenu de l'article
   publish: Publié
+  show_all: Voir tous les articles
   new:
     title: Ajouter un article
     success: L'article a bien été ajouté

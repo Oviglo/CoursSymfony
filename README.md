@@ -126,6 +126,19 @@ private $image;
 *L'attribut "orphanRemoval" indique que si l'attribut est null, Doctrine doit supprimer l'image associée s'il y en a une
 
 #### Relation ManyToOne
+Plusieurs objets peuvent être associés à un seul autre
+```php
+/**
+ * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+ */
+```
+Pour une relation inverse (ex: obtenir les articles d'une catégorie)
+
+```php
+/**
+ * @ORM\OneToMany(targetEntity"Article", mappedBy="category")
+ */
+``` 
 
 #### Relation ManyToMany
 Exemple: plusieurs articles dans plusieurs catégories
@@ -140,6 +153,29 @@ private $categories;
 ```
 
 ### Relation ManyToMany avec paramètres
+Pour faire une relation ManyToMany avec paramètres il faut créer une entité intermédiaire
+```php
+// Panier
+/**
+ * @ORM\OneToMany(targetEntity="PanierProduit")
+ */
+```
+```php
+// PanierProduit
+/**
+ * @ORM\ManyToOne(targetEntity="Panier", inversedBy="panierProduits")
+ */
+
+ /**
+  * @ORM\ManyToOne(targetEntity="Produit", inversedBy="panierProduits")
+  */
+```
+ ```php
+// Produit
+/**
+ * @ORM\ManyToOne(targetEntity="PanierProduit")
+ */
+```
 
 ## Formulaire
 Pour afficher un formulaire on utilise une classe "FormType" 
@@ -186,6 +222,29 @@ php bin/console fos:user:create --super-admin
 ```
 
 ## Twig
+Twig est un moteur de template, il propose un langage simplifié pour créer nos vues
+
+### Conditions et boucles
+#### Conditions
+```twig
+{% if condition %} {% else %} {% endif %}
+```
+
+#### Boucles
+```twig
+{% for entity in entities %}{% endfor %}
+```
+
+Dans une boucle, la variable "loop" permet d'obtenir des informations sur la boucle:
+```twig
+{{ loop.index }} {# index de la boucle #}
+{{ loop.first }} {# booléen si on est dans la première itération #}
+{{ loop.last }} {# booléen si on est dans la dernière itération #}
+```
+### Générer l'url d'une page de l'application
+```twig
+{{ path('nom_de_la_route', {'param1': 1}) }}
+```
 
 ### Inclure un controller
 ```twig

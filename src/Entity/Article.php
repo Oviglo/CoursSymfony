@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,7 +63,7 @@ class Article
 
     /**
      * @var ?\App\Entity\User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
      */
     private $user;
 
@@ -71,12 +73,18 @@ class Article
      */
     private $publish;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleFollow", mappedBy="article", orphanRemoval=true)
+     */
+    private $followers;
+
     public function __construct()
     {
         $this->deleteImage = false;
         $this->dateCreate =  new \DateTime;
         $this->dateUpdate = null;
         $this->publish = true;
+        $this->followers = new ArrayCollection();
     }
 
     /**
@@ -283,6 +291,37 @@ class Article
     public function setPublish(?bool $publish)
     {
         $this->publish = $publish;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleFollow[]
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(ArticleFollow $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers[] = $follower;
+            $follower->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(ArticleFollow $follower): self
+    {
+        if ($this->followers->contains($follower)) {
+            $this->followers->removeElement($follower);
+            // set the owning side to null (unless already changed)
+            if ($follower->getArticle() === $this) {
+                $follower->setArticle(null);
+            }
+        }
 
         return $this;
     }

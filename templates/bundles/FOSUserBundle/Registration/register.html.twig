@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_content %}
+
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    {% embed 'decorator/_card.html.twig' %}
+        {% trans_default_domain 'FOSUserBundle' %}
+        
+        {% block body %}
+        {{ form_widget(form) }}
+        {% endblock %}
+
+        {% block footer %}
+            <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" />
+        {% endblock %}
+
+    {% endembed %}
+{{ form_end(form) }}
+{% endblock %}

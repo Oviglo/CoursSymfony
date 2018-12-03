@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Article;
 use App\Entity\ArticleFollow;
@@ -76,8 +77,9 @@ class ArticleController extends Controller
     /**
      * @Route("/follow/{id}", requirements={"id" = "\d+"}, name="follow")
      */
-    public function follow(Article $entity)
+    public function follow(Request $request, Article $entity)
     {
+        $isFollow = false;
         // Tester si l'utilisateur suis ou non l'article
         $user = $this->getUser();
 
@@ -92,15 +94,27 @@ class ArticleController extends Controller
 
                 $em->remove($af);
 
-            } else { // L'utilisateur ne suis pas l'article
+            } else { // L'utilisateur ne suis pas encore l'article
 
                 $af = new ArticleFollow();
                 $af->setArticle($entity)->setUser($user);
 
                 $em->persist($af);
+
+                $isFollow = true;
             }
 
             $em->flush();
+        }
+
+        // Test si la requête est en AJAX
+        if ($request->isXmlHttpRequest()) {
+
+            // return new JsonResponse(array());
+            return $this->json(array(
+                'success' => true,
+                'isFollow' => $isFollow,
+            ));
         }
 
         return $this->redirectToRoute('article_show', array('id' => $entity->getId()));

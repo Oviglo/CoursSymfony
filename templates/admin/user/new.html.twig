@@ -1,0 +1,23 @@
+{% extends 'admin/admin_layout.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block page_content %}
+{{ form_start(form) }}
+    {% embed 'decorator/_card.html.twig' %}
+    {% block header %}
+    <h1>Create new User</h1>
+    {% endblock %}
+
+    {% block body %}
+    {{ include('admin/user/_form.html.twig', {'button_label': 'Update'}) }}
+    {% endblock %}
+
+    {% block footer %}
+    <a class="btn btn-secondary" href="{{ path('admin_user_index') }}">back to list</a>
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    {% endblock %}
+
+    {% endembed %}
+    {{ form_end(form) }}
+{% endblock %}

@@ -32,6 +32,12 @@ class User extends BaseUser
      */
     private $followedArticles;
 
+    /**
+     * @var null|string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->articles = new \Doctrine\Common\Collections\ArrayCollection;
@@ -91,6 +97,30 @@ class User extends BaseUser
                 $followedArticle->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of type
+     *
+     * @return  null|string
+     */ 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the value of type
+     *
+     * @param  null|string  $type
+     *
+     * @return  self
+     */ 
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -250,3 +250,13 @@ Dans une boucle, la variable "loop" permet d'obtenir des informations sur la bou
 ```twig
 {{ render(controller('App\\Controller\\ArticleController::recentArticles', { 'count' : 10 })) }}
 ```
+
+## Make Bundle
+
+### Crud
+Pour générer un CRUD admin propre:
+- Faire une copie de l'entité dans le dossier Entity\Admin
+- Faire la commande ```php bin/console make:crud``` et donner le lien vers l'entité du dossier admin ```Admin\User```
+- Une fois le crud généré, supprimer le fichier dans Entity\Admin
+- Faire un trouver/remplacer de "App\Entity\Admin\User" par "App\Entity\User"
+- Faire un trouver/replacer dans les vues de "admin_user/" par "admin/user/"

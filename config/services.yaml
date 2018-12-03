@@ -33,6 +33,17 @@ services:
 
     app.admin_menu_builder:
         class: App\Menu\AdminMenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory", "@security.token_storage"]
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: admin }
+
+    app.user_menu_builder:
+        class: App\Menu\UserMenuBuilder
+        arguments: ["@knp_menu.factory", "@security.token_storage"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: user }
+    
+    #app.form_registration:
+    #    class: App\Form\RegistrationType
+    #    tags:
+    #        - { name: form.type, alias: app_user_registration }

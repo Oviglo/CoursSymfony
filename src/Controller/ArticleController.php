@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Article;
 use App\Entity\ArticleFollow;
+use App\Repository\ArticleRepository;
 
 /**
  * @Route("/article", name="article_")
@@ -17,9 +18,8 @@ class ArticleController extends Controller
     /**
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="index")
      */
-    public function index($page)
+    public function index($page, ArticleRepository $repository)
     {
-        $em = $this->getDoctrine()->getManager();
         // Nombre d'article à afficher par page
         $count = 10; 
         $user = $this->getUser(); // Utilisateur courant
@@ -28,7 +28,7 @@ class ArticleController extends Controller
             $isPublished = null;
         }
         // Récupére les article en fonction de la page et du nombre 
-        $entities = $em->getRepository(Article::class)->findByPage($page, $count, $isPublished);
+        $entities = $repository->findByPage($page, $count, $isPublished);
         // Calcul le nombre de page
         $nbPages = ceil(count($entities) / $count);
 

@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route; // Définir les routes en annotations
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 use App\Form\ArticleType;
 use App\Entity\Article;
@@ -38,7 +40,7 @@ class ArticleController extends Controller
     /**
      * @Route("/new", name="new")
      */
-    public function new(Request $request)
+    public function new(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $entity = new Article;
         $user = $this->getUser();
@@ -57,6 +59,10 @@ class ArticleController extends Controller
             // Crée un message de confirmation
             $t = $this->get('translator');
             $this->addFlash('success', $t->trans('article.new.success'));
+
+            // Déclanchement de l'événement 'article.add'
+            $event = new GenericEvent($entity);
+            $eventDispatcher->dispatch('article.add', $event);
 
             return $this->redirectToRoute('admin_article_index'); // Retour sur la liste des articles
         }

@@ -24,7 +24,7 @@ class AdminMenuBuilder
         // Création du menu
         $parent = $menu->addChild('menu.admin.articles', ['uri' => '#']); // uri => lien externe
         // Ajoute un sous-menu
-        $parent->addChild('menu.admin.article_list', ['route' => 'admin_article_index']);
+        $parent->addChild('menu.admin.article_list', ['route' => 'admin_article_index', 'attributes' => ['class' => 'test']]);
         $parent->addChild('menu.admin.article_new', ['route' => 'admin_article_new']);
         // $parent->addChild('menu.admin.article_new', ['route' => 'admin_article_edit', 'routeParameters' => ['id'=> 1]]);
 

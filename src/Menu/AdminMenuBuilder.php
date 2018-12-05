@@ -21,18 +21,7 @@ class AdminMenuBuilder
         $user = $this->tokenStorage->getToken()->getUser();
         $menu = $this->factory->createItem('root');
 
-        // Création du menu
-        $parent = $menu->addChild('menu.admin.articles', ['uri' => '#']); // uri => lien externe
-        // Ajoute un sous-menu
-        $parent->addChild('menu.admin.article_list', ['route' => 'admin_article_index', 'attributes' => ['class' => 'test']]);
-        $parent->addChild('menu.admin.article_new', ['route' => 'admin_article_new']);
-        // $parent->addChild('menu.admin.article_new', ['route' => 'admin_article_edit', 'routeParameters' => ['id'=> 1]]);
-
-        $menu->addChild('menu.admin.categories', ['route' => 'admin_category_index']);
-
-        if ($user->hasRole('ROLE_FOURNISSEUR')) {
-            $menu->addChild('fournisseur', ['uri' => '#']);
-        }
+        $menu->addChild('menu.users', ['route' => 'user_admin_index']);
 
         return $menu;
     }

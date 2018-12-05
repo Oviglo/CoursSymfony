@@ -1,14 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block page_content %}
-<h2>Derniers articles</h2>
-{{ render(controller('App\\Controller\\ArticleController::recentArticles')) }}
-<a href="{{ path('article_index') }}" class="btn btn-secondary">{{ 'article.show_all'|trans }}</a>
 {% endblock page_content %}
 
 {% block javascripts %}
-<script>
-
-
-</script>
 {% endblock %}

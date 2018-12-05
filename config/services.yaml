@@ -47,6 +47,7 @@ services:
     #    class: App\Form\RegistrationType
     #    tags:
     #        - { name: form.type, alias: app_user_registration }
-    App\EventListener\NotificationListener:
-        tags:
-            - { name: kernel.event_listener, event: article.add, method: onArticleAdd }
+
+    #App\EventListener\NotificationListener:
+    #    tags:
+    #        - { name: kernel.event_listener, event: article.add, method: onArticleAdd }

@@ -17,21 +17,4 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
-
-    /**
-     * Requête optimisée avec des jointures
-     */
-    public function findOneByUsername($username)
-    {
-        return $this->createQueryBuilder('u')
-            ->select('u, a, c, i')
-            ->leftJoin('u.articles', 'a')
-            ->leftJoin('a.categories', 'c')
-            ->leftJoin('a.image', 'i')
-            ->where('u.username = :username')
-            ->setParameter(':username', $username)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
 }
